@@ -17,13 +17,12 @@ const machine = {
 }
 
 const initialState = 'idle'
-const transition = state => action => machine => machine[state][action]
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dataState: initialState,
+      dataState: props.initialState,
       data: undefined
     }
 
@@ -45,7 +44,7 @@ class App extends Component {
 
   transition(action) {
     const { dataState } = this.state
-    const nextState = machine[dataState][action]
+    const nextState = this.props.machine[dataState][action]
     const command = this.commands[nextState]
 
     this.setState({
@@ -76,4 +75,5 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('app'))
+render(<App machine={machine} initialState={initialState} />,
+  document.getElementById('app'))
